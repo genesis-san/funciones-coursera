@@ -1,0 +1,37 @@
+#El propósito es escribir un par de funciones que almacenan en caché 
+#el inverso de una matriz utilizando conceptos de alcance léxico.
+
+#La función makeCacheMatrix crea un objeto especial "matriz" que puede almacenar en caché
+es inversa o almacena la matriz y su inversa.
+
+makeVector <- function(x = numeric()) {
+  g <- NULL
+  set <- function(y) {
+    x <<- y
+    g <<- NULL
+  }
+  get <- function() x
+  setmean <- function(mean) g <<- mean
+  getmean <- function() g
+  list(set = set, get = get,
+       setmean = setmean,
+       getmean = getmean)
+}
+#cacheSolve requiere un argumento que devuelve makeCacheMatrix ()
+#para recuperar el inverso del valor almacenado en caché que se almacena en el
+#entorno del objeto makeCacheMatrix (). cacheSolve calcula el inverso
+#de la "matriz" especial devuelta por makeCacheMatrix arriba.
+#Si ya se ha calculado el inverso (y la matriz no ha cambiado),
+#entonces el cachesolve debería recuperar el inverso del caché.
+
+cachemean <- function(x, ...) {
+  g <- x$getmean()
+  if(!is.null(g)) {
+    message("getting cached data")
+    return(g)
+  }
+  data <- x$get()
+  g <- mean(data, ...)
+  x$setmean(g)
+  g
+}
